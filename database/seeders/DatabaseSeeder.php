@@ -18,7 +18,9 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Etudiant::factory(10)->create();
 
-        \App\Models\User::factory(4)->create();
+        \App\Models\User::factory(2)->create();
+
+        $this->call(LaratrustSeeder::class);
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

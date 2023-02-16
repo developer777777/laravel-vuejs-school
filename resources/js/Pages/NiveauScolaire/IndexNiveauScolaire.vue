@@ -42,7 +42,7 @@
                                         <td>
                                             <div class="d-flex justify-center">
                                                 <button @click="openEditModal(niveauScolaire.id)" class="btn btn-info mr-2"><i class="fas fa-pen"></i></button>
-                                                <button @click="deleteConfirmation(niveauScolaire.id)" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                                <button v-if="user.role=='directeur'" @click="deleteConfirmation(niveauScolaire.id)" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                             </div>
                                         </td>
                                     </tr>
@@ -65,6 +65,13 @@
     import EditNiveauScolaire from './EditNiveauScolaire.vue';
     import { useSwalConfirm, useSwalError, useSwalSuccess } from '../../Composables/alert';
     import { router } from '@inertiajs/core';
+
+    import { Link, usePage } from '@inertiajs/vue3';
+    import { computed } from 'vue';
+
+        const user = computed(()=>{
+            return usePage().props.auth.user
+        })
 
     const editingElementId = ref(0)
     const showModal = ref(false)

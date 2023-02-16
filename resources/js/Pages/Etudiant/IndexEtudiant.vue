@@ -65,9 +65,7 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>
-
-                                        </th>
+                                        <th></th>
                                         <th>
                                             Etudiant
                                         </th>
@@ -100,7 +98,7 @@
                                                 >
                                                     <i class="fas fa-pen"></i>
                                                 </Link>
-                                                <button class="btn btn-danger" @click="deleteConfirmation(etudiant)">
+                                                <button v-if="user.role=='directeur'" class="btn btn-danger" @click="deleteConfirmation(etudiant)">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </div>
@@ -126,6 +124,13 @@ import { router } from "@inertiajs/core";
 import { ref } from "vue";
 import { useSwalConfirm, useSwalError, useSwalSuccess } from "../../Composables/alert";
 import Pagination from "../../Shared/Pagination.vue";
+
+import { Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
+
+    const user = computed(()=>{
+        return usePage().props.auth.user
+    })
 
 const props = defineProps({
     etudiants: Object,
