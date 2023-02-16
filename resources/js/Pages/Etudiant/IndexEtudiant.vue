@@ -16,23 +16,48 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
-                                <Link :href="route('etudiant.create')" class="btn btn-primary mb-3">
-                                    <i class="fa fa-plus"></i>Nouveau
-                                </Link>
-                                <select @change="search" v-model="per_page" class="form-control">
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                    <option value="20">20</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
+                                <div class="row">
+                                    <div class="col-sm-7">
+                                        <Link :href="route('etudiant.create')" class="btn btn-primary mb-2">
+                                            <i class="fa fa-plus"></i>Nouveau
+                                        </Link>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <select @change="search" v-model="per_page" class="form-control">
+                                            <option value="5">5</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                    </div>
+                                </div>
+
                             </div>
                             <div class="card-tools">
-                                <Pagination
-                                    :links="props.etudiants.links"
-                                    :prev="props.etudiants.prev_page_url"
-                                    :next="props.etudiants.next_page_url"
-                                />
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <input @keyup="search"
+                                        type="text"
+                                        v-model="searchEtudiant"
+                                        class="form-control"/>
+                                    </div>
+                                    <div class="col-sm">
+
+                                        <select @change="search"
+                                            v-model="filtreNiveauScolaire"
+                                            class="form-control">
+                                            <option value=""></option>
+                                            <option
+                                                :value="niveauScolaire.id"
+                                                v-for="niveauScolaire in props.niveauScolaires"
+                                                :key="niveauScolaire.id">
+                                                {{ niveauScolaire.nom }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
@@ -44,30 +69,12 @@
 
                                         </th>
                                         <th>
-                                            <p>Etudiant</p>
-                                            <input @keyup="search"
-                                                type="text"
-                                                v-model="searchEtudiant"
-                                                class="form-control"
-                                            />
+                                            Etudiant
                                         </th>
                                         <th>
-                                            <p>Niveau scolaire</p>
-                                            <select @change="search"
-                                                v-model="filtreNiveauScolaire"
-                                                class="form-control"
-                                            >
-                                                <option value=""></option>
-                                                <option
-                                                    :value="niveauScolaire.id"
-                                                    v-for="niveauScolaire in props.niveauScolaires"
-                                                    :key="niveauScolaire.id"
-                                                >
-                                                    {{ niveauScolaire.nom }}
-                                                </option>
-                                            </select>
+                                            Niveau scolaire
                                         </th>
-                                        <th style="width: 100px"></th>
+                                        <th style="width: 100px">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -101,6 +108,11 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <Pagination
+                                :links="props.etudiants.links"
+                                :prev="props.etudiants.prev_page_url"
+                                :next="props.etudiants.next_page_url"
+                            />
                         </div>
                     </div>
                 </div>
