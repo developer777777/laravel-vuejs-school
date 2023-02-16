@@ -1,0 +1,135 @@
+<template>
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                Ajout d'un étudiant
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <form @submit.prevent="soumettre" id="formulaire">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label for="">Nom :</label>
+                                        <input required :class="{'is-invalid': form.errors.nom}" type="text" class="form-control" v-model="form.nom">
+                                        <span v-if="form.errors.nom" class="invalid-feedback error">{{ form.errors.nom }}</span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="">Prénom :</label>
+                                        <input required type="text" :class="{'is-invalid': form.errors.prenom}" class="form-control" v-model="form.prenom">
+                                        <span v-if="form.errors.prenom" class="invalid-feedback error">{{ form.errors.prenom }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label for="">Sexe</label>
+                                        <select id="" class="form-control" :class="{'is-invalid': form.errors.sexe}" v-model="form.sexe">
+                                            <option value=""></option>
+                                            <option value="M">Masculin</option>
+                                            <option value="F">Féminin</option>
+                                        </select>
+                                        <span v-if="form.errors.sexe" class="invalid-feedback error">{{ form.errors.sexe }}</span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="">Age :</label>
+                                        <input required type="number" :class="{'is-invalid': form.errors.age}" class="form-control" v-model="form.age">
+                                        <span v-if="form.errors.age" class="invalid-feedback error">{{ form.errors.age }}</span>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="">Niveau Scolaire</label>
+                                    <select id="" class="form-control" :class="{'is-invalid': form.errors.niveauScolaire}" v-model="form.niveauScolaire">
+                                        <option value=""></option>
+                                        <option :value="nv.id" v-for="nv in props.niveauScolaires" :key="nv.id">{{ nv.nom }}</option>
+                                    </select>
+                                    <span v-if="form.errors.niveauScolaire" class="invalid-feedback error">{{ form.errors.niveauScolaire }}</span>
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <div class="form-group">
+                                        <label for="">Photo :</label>
+                                        <input :key="inputKey" accept="image/*" type="file" class="form-control" @input="previewImage($event)">
+                                    </div>
+                                    <div>
+                                        <img src="" alt="" id="image-preview" style="width: 75px; height: 75px; border-radius: 25px; display: none;">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" form="formulaire" class="btn btn-success">Soumettre</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script setup>
+import { useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import { useSwalSuccess, useSwalError } from '../../Composables/alert';
+
+    const inputKey = ref(0);
+
+    const props = defineProps({
+        niveauScolaires: Array
+    })
+
+    const form = useForm({
+        nom: "",
+        prenom: "",
+        sexe: "",
+        age: "",
+        niveauScolaire: "",
+        photo: null,
+    })
+
+    const soumettre = ()=>{
+        form.post(route("etudiant.store"), {
+            onSuccess: (page) => {
+                // afficher un message de succès
+                useSwalSuccess("Etudiant ajouté avec succès !")
+                form.reset()
+                inputKey.value += 1
+                document.getElementById("image-preview").style.display = "none";
+            },
+            onError: (errors) => {
+                //afficher un message d'erreur
+                useSwalError("Une erreur s'est produite")
+            },
+        })
+
+    }
+
+    const previewImage = (event)=>{
+        if(event.target.files.length>0){
+            form.photo = event.target.files[0]
+
+            var src = URL.createObjectURL(event.target.files[0])
+
+            var previewImage = document.getElementById("image-preview")
+
+            previewImage.src = src
+            previewImage.style.display = "block"
+        }
+    }
+</script>

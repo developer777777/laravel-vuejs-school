@@ -1,0 +1,175 @@
+<template>
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Listes des étudiants</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <Link :href="route('etudiant.create')" class="btn btn-primary mb-3">
+                                    <i class="fa fa-plus"></i>Nouveau
+                                </Link>
+                                <select @change="search" v-model="per_page" class="form-control">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                            <div class="card-tools">
+                                <Pagination
+                                    :links="props.etudiants.links"
+                                    :prev="props.etudiants.prev_page_url"
+                                    :next="props.etudiants.next_page_url"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="card-body p-0">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>
+
+                                        </th>
+                                        <th>
+                                            <p>Etudiant</p>
+                                            <input @keyup="search"
+                                                type="text"
+                                                v-model="searchEtudiant"
+                                                class="form-control"
+                                            />
+                                        </th>
+                                        <th>
+                                            <p>Niveau scolaire</p>
+                                            <select @change="search"
+                                                v-model="filtreNiveauScolaire"
+                                                class="form-control"
+                                            >
+                                                <option value=""></option>
+                                                <option
+                                                    :value="niveauScolaire.id"
+                                                    v-for="niveauScolaire in props.niveauScolaires"
+                                                    :key="niveauScolaire.id"
+                                                >
+                                                    {{ niveauScolaire.nom }}
+                                                </option>
+                                            </select>
+                                        </th>
+                                        <th style="width: 100px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        v-for="etudiant in props.etudiants.data"
+                                        :key="etudiant.id"
+                                    >
+                                        <td>
+                                            <img :src="showPic(etudiant)" alt="" style="width: 45px; height: 45px; border-radius: 25px;">
+                                        </td>
+                                        <td>
+                                            {{ etudiant.prenom }}
+                                            {{ etudiant.nom }}
+                                        </td>
+                                        <td>
+                                            {{ etudiant.niveau_scolaire.nom }}
+                                        </td>
+
+                                        <td>
+                                            <div class="d-flex justify-center">
+                                                <Link :href="route('etudiant.edit', {etudiant: etudiant.id})"
+                                                    class="btn btn-info mr-2"
+                                                >
+                                                    <i class="fas fa-pen"></i>
+                                                </Link>
+                                                <button class="btn btn-danger" @click="deleteConfirmation(etudiant)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script setup>
+import { router } from "@inertiajs/core";
+import { ref } from "vue";
+import { useSwalConfirm, useSwalError, useSwalSuccess } from "../../Composables/alert";
+import Pagination from "../../Shared/Pagination.vue";
+
+const props = defineProps({
+    etudiants: Object,
+    niveauScolaires: Array,
+    filtres: Object
+});
+
+const searchEtudiant = ref(props.filtres.search ?? "");
+const filtreNiveauScolaire = ref(props.filtres.filter ?? "");
+const per_page = ref(props.filtres.per_page ?? 5);
+
+const showPic = (etudiant)=>{
+    if(etudiant.photo){
+        return 'storage/'+etudiant.photo
+    }
+
+    return etudiant.sexe == "M" ? "images/man.png" : "images/woman.png"
+}
+
+
+const deleteEtudiant = (id)=>{
+        const url = route("etudiant.delete", {etudiant: id})
+
+        router.visit(url, {
+            method: 'delete',
+            // data: {nom},
+            onSuccess: page => {
+              // afficher un message de succès
+                useSwalSuccess("Etudiant supprimé avec succès !")
+            },
+            onError: errors => {
+                //afficher un message d'erreur
+                useSwalError(errors.message ?? "Une erreur s'est produite")
+            },
+
+        });
+    }
+
+    const deleteConfirmation = (etudiant)=>{
+        const message = `Voulez-vous supprimer l'étudiant "${etudiant.prenom} ${etudiant.nom}" ?`
+
+        useSwalConfirm(message, ()=>{
+            deleteEtudiant(etudiant.id)
+        })
+    }
+
+const search = _.throttle(function(){
+
+    const url = route("etudiant.index", {search: searchEtudiant.value, filter: filtreNiveauScolaire.value, per_page: per_page.value})
+
+    router.visit(url, {
+            method: 'get',
+            data: {},
+            replace: true,
+            preserveState: true,
+
+        });
+}, 500)
+</script>
