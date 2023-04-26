@@ -81,7 +81,7 @@ class EtudiantController extends Controller
             DB::roollback();
         }
 
-        return redirect()->back();
+        return redirect()->route('etudiant.index');
     }
 
     public function edit(Etudiant $etudiant){
@@ -139,7 +139,7 @@ class EtudiantController extends Controller
             DB::roollback();
         }
 
-        return redirect()->back();
+        return redirect()->route('etudiant.index');
 
     }
 
