@@ -23,8 +23,8 @@ class DatabaseSeeder extends Seeder
         $this->call(LaratrustSeeder::class);
 
         // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
+        //     'name' => 'Oumar',
+        //     'email' => 'admin@admin.com',
         // ]);
     }
 }
