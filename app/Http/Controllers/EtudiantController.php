@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\Storage;
 
 class EtudiantController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:etudiant list', ['only' => ['index', 'show']]);
+        $this->middleware('can:etudiant create', ['only' => ['create', 'store']]);
+        $this->middleware('can:etudiant edit', ['only' => ['edit', 'update']]);
+        $this->middleware('can:etudiant delete', ['only' => ['destroy']]);
+    }
+    
     public function index(Request $request){
         $search = $request->search;
         $filter = $request->filter;
@@ -30,10 +38,11 @@ class EtudiantController extends Controller
 
         $niveauScolaires = NiveauScolaire::all();
 
+
         return inertia('Etudiant/IndexEtudiant', [
             "etudiants" => $etudiants,
             "niveauScolaires" => $niveauScolaires,
-            "filtres" => $request->all("search", "filter", "per_page")
+            "filtres" => $request->all("search", "filter", "per_page"),
         ]);
     }
 

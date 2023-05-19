@@ -17,7 +17,7 @@ class AuthController extends Controller
         Auth::logout();
 
         return Inertia::location("/login");
-    }
+    } 
 
     public function authenticate(Request $request){
 

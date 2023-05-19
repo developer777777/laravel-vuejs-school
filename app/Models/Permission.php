@@ -2,9 +2,14 @@
 
 namespace App\Models;
 
-use Laratrust\Models\LaratrustPermission;
+use Spatie\Permission\Models\Permission as OriginalPermission;
 
-class Permission extends LaratrustPermission
+class Permission extends OriginalPermission
 {
-    public $guarded = [];
+    protected $fillable = [
+        'name',
+        'guard_name',
+        'updated_at',
+        'created_at',
+    ];
 }

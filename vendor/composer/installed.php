@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'c380dad45ce89b0181a20653cb45fa5507068a97',
+        'reference' => '71f315e0235ef18221804d46c5a19f4aa476f555',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -367,15 +367,6 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-        'kkszymanowski/traitor' => array(
-            'pretty_version' => '1.0.0',
-            'version' => '1.0.0.0',
-            'reference' => 'c16d90149e807d71562953eb5c9279e75170b63f',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../kkszymanowski/traitor',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
         'kodova/hamcrest-php' => array(
             'dev_requirement' => true,
             'replaced' => array(
@@ -394,7 +385,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'c380dad45ce89b0181a20653cb45fa5507068a97',
+            'reference' => '71f315e0235ef18221804d46c5a19f4aa476f555',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -806,15 +797,6 @@
                 0 => '4.7.4',
             ),
         ),
-        'santigarcor/laratrust' => array(
-            'pretty_version' => '7.2.0',
-            'version' => '7.2.0.0',
-            'reference' => 'f3ce07cbee8a18516c65f6b545ea4bcc70cc4423',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../santigarcor/laratrust',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
         'sebastian/cli-parser' => array(
             'pretty_version' => '1.0.1',
             'version' => '1.0.1.0',
@@ -994,6 +976,15 @@
             'install_path' => __DIR__ . '/../spatie/laravel-ignition',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'spatie/laravel-permission' => array(
+            'pretty_version' => '5.10.1',
+            'version' => '5.10.1.0',
+            'reference' => 'd08b3ffc5870cce4a47a39f22174947b33c191ae',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../spatie/laravel-permission',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'symfony/console' => array(
             'pretty_version' => 'v6.2.10',

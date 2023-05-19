@@ -98,7 +98,7 @@
                                                 >
                                                     <i class="fas fa-pen"></i>
                                                 </Link>
-                                                <button v-if="user.role=='directeur'" class="btn btn-danger" @click="deleteConfirmation(etudiant)">
+                                                <button v-if="user.can.delete" class="btn btn-danger" @click="deleteConfirmation(etudiant)">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </div>

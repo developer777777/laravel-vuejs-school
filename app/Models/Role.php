@@ -2,9 +2,14 @@
 
 namespace App\Models;
 
-use Laratrust\Models\LaratrustRole;
+use Spatie\Permission\Models\Role as OriginalRole;
 
-class Role extends LaratrustRole
+class Role extends OriginalRole
 {
-    public $guarded = [];
+    protected $fillable = [
+        'name',
+        'guard_name',
+        'updated_at',
+        'created_at',
+    ];
 }

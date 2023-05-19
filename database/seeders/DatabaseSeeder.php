@@ -17,10 +17,9 @@ class DatabaseSeeder extends Seeder
         $this->call(NiveauScolaireSeeder::class);
 
         \App\Models\Etudiant::factory(10)->create();
+        $this->call(BasicAdminPermissionSeeder::class);
 
-        \App\Models\User::factory(2)->create();
-
-        $this->call(LaratrustSeeder::class);
+        // \App\Models\User::factory(2)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Oumar',

@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Illuminate\Support\Facades\Auth;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -42,7 +43,12 @@ class HandleInertiaRequests extends Middleware
                     "user" => $request->user() ? [
                         "id" => $request->user()->id,
                         "name" => $request->user()->name,
-                        "role" => !empty($request->user()->roles()->first()->name),
+                        'can' => [
+                            'create' => Auth::user()->can('etudiant create'),
+                            'edit' => Auth::user()->can('etudiant edit'),
+                            'delete' => Auth::user()->can('etudiant delete'),
+                        ]
+                        // "role" => !empty($request->user()->roles()->first()->name),
                     ] : null
                 ];
             }
