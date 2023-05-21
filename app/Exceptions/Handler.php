@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Auth\Access\AuthorizationException;
+use Inertia\Inertia;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -46,5 +48,15 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $e){
+        // dd($e);
+        if($e instanceof AuthorizationException){
+            return Inertia::render("Errors",[
+                "exception" =>$e
+            ], 403);
+        }
+        return parent::render($request, $e);
     }
 }

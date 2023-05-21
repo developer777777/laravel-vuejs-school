@@ -43,11 +43,11 @@ class HandleInertiaRequests extends Middleware
                     "user" => $request->user() ? [
                         "id" => $request->user()->id,
                         "name" => $request->user()->name,
-                        'can' => [
-                            'create' => Auth::user()->can('etudiant create'),
-                            'edit' => Auth::user()->can('etudiant edit'),
-                            'delete' => Auth::user()->can('etudiant delete'),
-                        ]
+                        // 'can' => [
+                        //     'createEtudiant' => Auth::user()->can('etudiant create'),
+                        //     'editEtudiant' => Auth::user()->can('etudiant edit'),
+                        //     'deleteEtudiant' => Auth::user()->can('etudiant delete'),
+                        // ]
                         // "role" => !empty($request->user()->roles()->first()->name),
                     ] : null
                 ];
